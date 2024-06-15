@@ -1,59 +1,5 @@
 <?php
 
-// namespace App\Livewire;
-
-// use Livewire\Component;
-// use App\Models\LatestGallery;
-// use App\Models\LatestNews;
-// use App\Models\LatestVideos;
-
-// class FeaturedItems extends Component
-// {
-//     public $currentItem;
-//     protected $featuredItems;
-
-//     public function mount()
-//     {
-//         $this->fetchFeaturedItems();
-//         $this->currentItem = $this->featuredItems->first();
-//     }
-
-//     public function fetchFeaturedItems()
-//     {
-//         $latestVideos = LatestVideos::where('is_featured', true)->get();
-//         $latestGalleries = LatestGallery::where('is_featured', true)->get();
-//         $latestNews = LatestNews::where('is_featured', true)->get();
-
-//         $this->featuredItems = collect()
-//             ->merge($latestVideos)
-//             ->merge($latestGalleries)
-//             ->merge($latestNews)
-//             ->sortByDesc('created_at')
-//             ->take(4);
-//     }
-
-//     public function nextItem()
-//     {
-//         $currentIndex = $this->featuredItems->search($this->currentItem);
-//         $nextIndex = ($currentIndex + 1) % $this->featuredItems->count();
-//         $this->currentItem = $this->featuredItems[$nextIndex];
-//     }
-
-
-
-//     public function render()
-//     {
-//         return view('livewire.featured-items', ['currentItem' => $this->currentItem]);
-//     }
-// }
-
-
-
-
-
-
-
-
 namespace App\Livewire;
 
 use Livewire\Component;
@@ -63,38 +9,36 @@ use App\Models\LatestVideos;
 
 class FeaturedItems extends Component
 {
-    public $currentItem;
-    protected $featuredItems;
+    public $featuredItems;
+    public $currentItems;
 
     public function mount()
     {
         $this->fetchFeaturedItems();
-        $this->currentItem = $this->featuredItems->first();
+        $this->currentItems = $this->featuredItems->take(4);
     }
 
     public function fetchFeaturedItems()
     {
-        $latestVideos = LatestVideos::where('is_featured', true)->get();
-        $latestGalleries = LatestGallery::where('is_featured', true)->get();
-        $latestNews = LatestNews::where('is_featured', true)->get();
+        $latestVideos = LatestVideos::where('is_featured', true)->latest()->take(4)->get();
+        $latestGalleries = LatestGallery::where('is_featured', true)->latest()->take(4)->get();
+        $latestNews = LatestNews::where('is_featured', true)->latest()->take(4)->get();
 
         $this->featuredItems = collect()
             ->merge($latestVideos)
             ->merge($latestGalleries)
             ->merge($latestNews)
             ->sortByDesc('created_at')
-            ->take(4);
+            ->take(12);
     }
 
-    public function nextItem()
+    public function nextItems()
     {
-        $currentIndex = $this->featuredItems->search($this->currentItem);
-        $nextIndex = ($currentIndex + 1) % $this->featuredItems->count();
-        $this->currentItem = $this->featuredItems[$nextIndex];
+        $this->currentItems = $this->featuredItems->splice(4)->take(4)->concat($this->featuredItems->take(4));
     }
 
     public function render()
     {
-        return view('livewire.featured-items', ['currentItem' => $this->currentItem]);
+        return view('livewire.featured-items', ['currentItems' => $this->currentItems]);
     }
 }
