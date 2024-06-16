@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\LatestNews;
 
-class NewsComponent extends Component
+class NewsToggleComponent extends Component
 {
     public $news;
 
@@ -22,7 +22,6 @@ class NewsComponent extends Component
             $new->is_featured = !$new->is_featured;
             $new->save();
 
-            // Refresh the component data
             $this->news = LatestNews::find($id);
         }
     }

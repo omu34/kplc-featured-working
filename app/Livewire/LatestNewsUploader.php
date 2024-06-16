@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\LatestNews as News;
 
-class LatestNews extends Component
+class LatestNewsUploader extends Component
 {
     use WithFileUploads;
 
@@ -38,7 +38,7 @@ class LatestNews extends Component
     public function saveNews()
     {
         $this->validate([
-            'newsFile' => 'required|mimetypes:video/mp4|max:10240,pdf,doc,docx,ppt,pptx,xls,xlsx|max:10240',
+            'newsFile' => 'required|mime-types:video/mp4,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-msvideo,audio/mpeg,audio/mp3,image/png,image/jpeg,image/gif,pdf,doc,docx,ppt,pptx,xls,xlsx,zip,csv|max:10240',
             'likes' => 'required|integer|max:2000',
             'views' => 'required|integer|max:2000',
             'description' => 'nullable|string',
@@ -73,6 +73,6 @@ class LatestNews extends Component
 
     public function render()
     {
-        return view('livewire.latest-news', ['news' => $this->news]);
+        return view('livewire.latest-news-uploader', ['news' => $this->news]);
     }
 }

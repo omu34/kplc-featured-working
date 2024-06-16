@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\LatestGallery as Gallery;
+use App\Models\LatestGallery;
+use App\Models\LatestVideos;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class LatestGallery extends Component
+class LatestGalleryUploader extends Component
 {
     use WithFileUploads;
 
@@ -18,27 +19,27 @@ class LatestGallery extends Component
     public $views;
 
 
-    protected $listeners = ['refresGallery' => '$refresh'];
+    protected $listeners = ['refreshGallery' => '$refresh'];
 
     public function mount()
     {
-        $this->gallery = Gallery::latest()->take(4)->get();
+        $this->gallery = LatestGallery::latest()->take(4)->get();
     }
 
     public function toggleFeatured($galleryId)
     {
-        $gallery = Gallery::find($galleryId);
+        $gallery = LatestGallery::find($galleryId);
         $gallery->is_featured = !$gallery->is_featured;
         $gallery->save();
 
-        $this->gallery = Gallery::latest()->take(4)->get();
+        $this->gallery = LatestGallery::latest()->take(4)->get();
         $this->emit('refreshNews');
     }
 
     public function saveGallery()
     {
         $this->validate([
-            'galleryFile' => 'required|mimetypes:video/mp4|max:10240,pdf,doc,docx,ppt,pptx,xls,xlsx|max:10240',
+            'galleryFile' => 'required|mimetypes:video/mp4,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-msvideo,audio/mpeg,audio/mp3,image/png,image/jpeg,image/gif,pdf,doc,docx,ppt,pptx,xls,xlsx,zip,csv|max:10240',
             'likes' => 'required|integer|max:2000',
             'views' => 'required|integer|max:2000',
             'description' => 'nullable|string',
@@ -47,7 +48,7 @@ class LatestGallery extends Component
 
         $filePath = $this->newsFile->store('gallery', 'public');
 
-        Gallery::create([
+        LatestGallery::create([
             'description' => $this->description,
             'file_path' => $filePath,
             'link' => $this->link,
@@ -57,7 +58,7 @@ class LatestGallery extends Component
         ]);
 
 
-        $this->gallery = Gallery::latest()->take(4)->get();
+        $this->gallery = LatestGallery::latest()->take(4)->get();
         $this->emit('refreshGallery');
         $this->resetInputFields();
     }
@@ -73,6 +74,6 @@ class LatestGallery extends Component
 
     public function render()
     {
-        return view('livewire.latest-gallery', ['gallery' => $this->gallery]);
+        return view('livewire.latest-gallery-uploader', ['gallery' => $this->gallery]);
     }
 }

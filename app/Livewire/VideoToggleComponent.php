@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\LatestVideos;
 
-class VideoComponent extends Component
+class VideoToggleComponent extends Component
 {
     public $videos;
 
@@ -22,7 +22,6 @@ class VideoComponent extends Component
             $video->is_featured = !$video->is_featured;
             $video->save();
 
-            // Refresh the component data
             $this->videos = LatestVideos::find($id);
         }
     }

@@ -1,6 +1,9 @@
-<!-- resources/views/videos/show.blade.php -->
-
 @extends('layouts.app')
+
+@section('content')
+    <livewire:show-videos-item :id="$id" />
+@endsection
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -60,4 +63,4 @@
             <p>Video not found.</p>
         @endif
     </div>
-@endsection
+@endsection --}}

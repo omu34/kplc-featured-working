@@ -2,16 +2,16 @@
     <article
         class="relative isolate flex flex-col transition-transform transform hover:scale-105 justify-end overflow-hidden rounded-2xl bg-gray-900 px-4 pb-8 pt-44 sm:pt-60 lg:pt-48">
         @php
-            $mimeType = Storage::disk('public')->mimeType($news->file_path);
+            $mimeType = Storage::disk('public')->mimeType($videos->file_path);
         @endphp
 
-        @if ($mimeType === 'video/mp4')
+        @if ($mimeType === 'video/mp4'|| $mimeType === 'video/webm' || $mimeType === 'video/ogg' || $mimeType === 'video/quicktime' || $mimeType === 'video/x-flv')
             <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
-                <source src="{{ Storage::url($news->file_path) }}" type="video/mp4">
+                <source src="{{ Storage::url($videos->file_path) }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         @elseif ($mimeType === 'image/jpeg' || $mimeType === 'image/png')
-            <img src="{{ Storage::url($news->file_path) }}" alt=""
+            <img src="{{ Storage::url($videos->file_path) }}" alt=""
                 class="absolute inset-0 -z-10 h-full w-full object-cover">
         @else
             <img src="/default-image.jpg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
@@ -21,20 +21,20 @@
         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
 
         <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-white">
-            <time datetime="{{ $news->created_at->format('Y-m-d') }}"
-                class="text-white mr-6">{{ $news->created_at->format('M d, Y') }}</time>
+            <time datetime="{{ $videos->created_at->format('Y-m-d') }}"
+                class="text-white mr-6">{{ $videos->created_at->format('M d, Y') }}</time>
             <div class="-ml-4 flex items-center gap-x-2">
                 <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white">
                     <circle cx="1" cy="1" r="1" />
                 </svg>
                 <div class="flex text-white">
-                    Views {{ $news->views ?? '0' }}
+                    Views {{ $videos->views ?? '0' }}
                 </div>
             </div>
         </div>
         <h3 class="mt-1 text-sm font-normal leading-6 text-white">
             <span class="absolute inset-0"></span>
-            {{ $news->description }}
+            {{ $videos->description }}
         </h3>
         <div class="flex mt-2 flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
             <svg width="16" height="16" class="mr-6" viewBox="0 0 16 16" fill="none"
@@ -45,13 +45,13 @@
             </svg>
             <div class="-ml-4 flex items-center gap-x-2">
                 <div class="flex text-white gap-x-2">
-                    Likes {{ $news->likes }}
+                    Likes {{ $videos->likes }}
                 </div>
             </div>
         </div>
         <div class="mt-2">
             <button wire:click=""
-                class="text-white   hover:bg-{{ $news->is_featured ? 'yellow' : '' }}-700 font-bold py-2 px-4 rounded">
+                class="text-white   hover:bg-{{ $video->is_featured ? 'yellow' : '' }}-700 font-bold py-2 px-4 rounded">
             </button>
         </div>
     </article>

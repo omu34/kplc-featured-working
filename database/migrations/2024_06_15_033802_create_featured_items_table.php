@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('item_id'); // ID of the related model
             $table->string('item_type'); // Type of the related model (Videos, Gallery, News)
             $table->timestamps();
-
             // Index for faster lookups
             $table->index(['item_id', 'item_type']);
         });

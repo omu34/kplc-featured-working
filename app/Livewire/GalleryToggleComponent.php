@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\LatestGallery;
 
-class GalleryComponent extends Component
+class GalleryToggleComponent extends Component
 {
     public $gallery;
 
@@ -22,7 +22,6 @@ class GalleryComponent extends Component
             $galla->is_featured = !$galla->is_featured;
             $galla->save();
 
-            // Refresh the component data
             $this->gallery = LatestGallery::find($id);
         }
     }

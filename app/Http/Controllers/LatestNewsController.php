@@ -1,8 +1,7 @@
-<?php // app/Http/Controllers/VideoController.php
+<?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\LatestNews;
 
 class LatestNewsController extends Controller

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\LatestVideos;
 use App\Models\LatestGallery;
 use App\Models\LatestNews;
@@ -10,6 +9,7 @@ use App\Models\FeaturedItems;
 
 class FeaturedItemsController extends Controller
 {
+
     public function index()
     {
         $latestVideos = LatestVideos::where('is_featured', true)->latest()->take(4)->get();

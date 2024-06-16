@@ -2,16 +2,28 @@
     <article
         class="relative isolate flex flex-col transition-transform transform hover:scale-105 justify-end overflow-hidden rounded-2xl bg-gray-900 px-4 pb-8 pt-44 sm:pt-60 lg:pt-48">
         @php
-            $mimeType = Storage::disk('public')->mimeType($gallery->file_path);
+            $mimeType = Storage::disk('public')->mimeType($news->file_path);
         @endphp
 
-        @if ($mimeType === 'video/mp4')
+        @if (Str::startsWith($mimeType, 'video'))
             <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
-                <source src="{{ Storage::url($gallery->file_path) }}" type="video/mp4">
+                <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
                 Your browser does not support the video tag.
             </video>
-        @elseif ($mimeType === 'image/jpeg' || $mimeType === 'image/png')
-            <img src="{{ Storage::url($gallery->file_path) }}" alt=""
+        @elseif (Str::startsWith($mimeType, 'image'))
+            <img src="{{ Storage::url($currentItem->file_path) }}" alt=""
+                class="absolute inset-0 -z-10 h-full w-full object-cover">
+        @elseif (Str::startsWith($mimeType, 'application/pdf'))
+            <img src="/pdf-icon.png" alt="PDF Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
+        @elseif (Str::startsWith($mimeType, 'application/msword') ||
+                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+            <img src="/word-icon.png" alt="Word Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
+        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
+                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
+            <img src="/excel-icon.png" alt="Excel Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
+        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
+                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'))
+            <img src="/powerpoint-icon.png" alt="PowerPoint Presentation"
                 class="absolute inset-0 -z-10 h-full w-full object-cover">
         @else
             <img src="/default-image.jpg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
@@ -21,20 +33,20 @@
         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
 
         <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-white">
-            <time datetime="{{ $gallery->created_at->format('Y-m-d') }}"
-                class="text-white mr-6">{{ $gallery->created_at->format('M d, Y') }}</time>
+            <time datetime="{{ $news->created_at->format('Y-m-d') }}"
+                class="text-white mr-6">{{ $news->created_at->format('M d, Y') }}</time>
             <div class="-ml-4 flex items-center gap-x-2">
                 <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white">
                     <circle cx="1" cy="1" r="1" />
                 </svg>
                 <div class="flex text-white">
-                    Views {{ $gallery->views ?? '0' }}
+                    Views {{ $news->views ?? '0' }}
                 </div>
             </div>
         </div>
         <h3 class="mt-1 text-sm font-normal leading-6 text-white">
             <span class="absolute inset-0"></span>
-            {{ $gallery->description }}
+            {{ $news->description }}
         </h3>
         <div class="flex mt-2 flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
             <svg width="16" height="16" class="mr-6" viewBox="0 0 16 16" fill="none"
@@ -45,20 +57,14 @@
             </svg>
             <div class="-ml-4 flex items-center gap-x-2">
                 <div class="flex text-white gap-x-2">
-                    Likes {{ $gallery->likes }}
+                    Likes {{ $news->likes }}
                 </div>
             </div>
         </div>
         <div class="mt-2">
             <button wire:click=""
-                class="text-white   hover:bg-{{ $galla->is_featured ? 'yellow' : '' }}-700 font-bold py-2 px-4 rounded">
+                class="text-white   hover:bg-{{ $news->is_featured ? 'yellow' : '' }}-700 font-bold py-2 px-4 rounded">
             </button>
         </div>
-        {{-- <div class="mt-2">
-            <button wire:click=" toggleFeatured({{ $gallery->id }})"
-                class="text-white bg-{{ $gallery->featured ? 'yellow' : 'gray' }}-500 hover:bg-{{ $gallery->featured ? 'yellow' : 'gray' }}-700 font-bold py-2 px-4 rounded">
-                {{ $gallery->featured ? 'Unfeature': 'Feature' }}                 
-            </button>
-        </div> --}}
     </article>
 </div>
