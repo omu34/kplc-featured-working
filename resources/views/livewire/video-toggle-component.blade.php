@@ -5,7 +5,12 @@
             $mimeType = Storage::disk('public')->mimeType($videos->file_path);
         @endphp
 
-        @if ($mimeType === 'video/mp4'|| $mimeType === 'video/webm' || $mimeType === 'video/ogg' || $mimeType === 'video/quicktime' || $mimeType === 'video/x-flv')
+        @if (
+            $mimeType === 'video/mp4' ||
+                $mimeType === 'video/webm' ||
+                $mimeType === 'video/ogg' ||
+                $mimeType === 'video/quicktime' ||
+                $mimeType === 'video/x-flv')
             <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
                 <source src="{{ Storage::url($videos->file_path) }}" type="video/mp4">
                 Your browser does not support the video tag.

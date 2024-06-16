@@ -11,6 +11,11 @@
                     <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
                     Your browser does not support the video tag.
                 </video>
+            @elseif (Str::startsWith($mimeType, 'audio'))
+                <audio controls class="absolute inset-0 -z-10 w-full">
+                    <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
+                    Your browser does not support the audio element.
+                </audio>
             @elseif (Str::startsWith($mimeType, 'image'))
                 <img src="{{ Storage::url($currentItem->file_path) }}" alt=""
                     class="absolute inset-0 -z-10 h-full w-full object-cover">
