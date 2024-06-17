@@ -5,7 +5,7 @@
             </div>
 
             <div
-                class="mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-4 lg:mx-0 lg:max-w-none lg:grid-cols-4 nextItems">
+                class="mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 nextItems">
                 @foreach ($currentItems as $currentItem)
                     <article data-aos="fade-up" data-aos-duration="1500"
                         class="relative isolate flex flex-col transition-transform transform hover:scale-105 justify-end overflow-hidden rounded-2xl bg-gray-900 px-4 pb-8 pt-44 sm:pt-60 lg:pt-48">
@@ -14,9 +14,53 @@
                             $mimeType = Storage::disk('public')->mimeType($currentItem->file_path);
                         @endphp
 
+                        {{-- @if (Str::startsWith($mimeType, 'video'))
+                            <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
+                                <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
+                                Your browser does not support the video tag.
+                            </video>
+                        @elseif (Str::startsWith($mimeType, 'audio'))
+                            <audio class="absolute inset-0 -z-10 w-full" controls>
+                                <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
+                                Your browser does not support the audio element.
+                            </audio>
+                        @elseif (Str::startsWith($mimeType, 'image'))
+                            <img src="{{ Storage::url($currentItem->file_path) }}" alt=""
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/pdf'))
+                            <img src="/pdf-file-svg-repo-com.svg" alt="PDF Document"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/zip'))
+                            <img src="/zip.png" alt="ZIP Archive"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'text/csv') || Str::startsWith($mimeType, 'application/vnd.ms-excel'))
+                            <img src="/csv.png" alt="CSV File"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/msword') ||
+                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+                            <img src="/word.png" alt="Word Document"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
+                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
+                            <img src="/excel.xlsx" alt="Excel Document"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
+                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'))
+                            <img src="/powerpoint.png" alt="PowerPoint Presentation"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-access'))
+                            <img src="/access.png" alt="Access Database"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @else
+                            <img src="/default-image.jpg" alt=""
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @endif --}}
+
+
+
 
                         @if (Str::startsWith($mimeType, 'video'))
-                            <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
+                            <video autoplay muted loop class="absolute inset-0 -z-10 h-full w-full object-cover">
                                 <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
                                 Your browser does not support the video tag.
                             </video>
@@ -28,42 +72,81 @@
                         @elseif (Str::startsWith($mimeType, 'image'))
                             <img src="{{ Storage::url($currentItem->file_path) }}" alt=""
                                 class="absolute inset-0 -z-10 h-full w-full object-cover">
-                        @elseif (Str::startsWith($mimeType, 'application/pdf'))
-                            <img src="/pdf-icon.png" alt="PDF Document"
-                                class="absolute inset-0 -z-10 h-full w-full object-cover">
-                        @elseif (Str::startsWith($mimeType, 'application/msword') ||
-                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
-                            <img src="/word-icon.png" alt="Word Document"
-                                class="absolute inset-0 -z-10 h-full w-full object-cover">
-                        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
-                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
-                            <img src="/excel-icon.png" alt="Excel Document"
-                                class="absolute inset-0 -z-10 h-full w-full object-cover">
-                        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
-                                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'))
-                            <img src="/powerpoint-icon.png" alt="PowerPoint Presentation"
-                                class="absolute inset-0 -z-10 h-full w-full object-cover">
                         @else
-                            <img src="/default-image.jpg" alt=""
+                            @php
+                                $fileIcon = '';
+                                if (Str::startsWith($mimeType, 'application/pdf')) {
+                                    $fileIcon = 'pdf-file-svg-repo-com.svg';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/msword') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                    )
+                                ) {
+                                    $fileIcon = 'word.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                    )
+                                ) {
+                                    $fileIcon = 'excel.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                                    )
+                                ) {
+                                    $fileIcon = 'powerpoint.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/zip') ||
+                                    Str::startsWith($mimeType, 'application/x-zip-compressed')
+                                ) {
+                                    $fileIcon = 'zip.png';
+                                } elseif (Str::startsWith($mimeType, 'text/csv')) {
+                                    $fileIcon = 'csv.png';
+                                } else {
+                                    $fileIcon = 'default-image.jpg';
+                                }
+                            @endphp
+                            <img src="/{{ $fileIcon }}" alt="File Icon"
                                 class="absolute inset-0 -z-10 h-full w-full object-cover">
                         @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-gray-900/50"></div>
                         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
 
-                        @if ($currentItem instanceof \App\Models\Videos)
-                            <img src="/video.svg"
+
+                        @if ($currentItem instanceof \App\Models\LatestVideos)
+                            <img src="/video.png"
                                 class="absolute text-yellow top-2/3 mb-8 left-1/2 transform -translate-x-1/2 -translate-y-28 h-12 w-12 fill-white"
                                 alt="">
-                        @elseif ($currentItem instanceof \App\Models\News)
+                        @elseif ($currentItem instanceof \App\Models\LatestNews)
                             <img src="/blog.svg"
                                 class="absolute text-yellow top-2/3 mb-8 left-1/2 transform -translate-x-1/2 -translate-y-28 h-12 w-12 fill-white"
                                 alt="">
-                        @elseif ($currentItem instanceof \App\Models\Gallery)
+                        @elseif ($currentItem instanceof \App\Models\LatestGallery)
                             <img src="/gallery.svg"
                                 class="absolute text-yellow top-2/3 mb-8 left-1/2 transform -translate-x-1/2 -translate-y-28 h-12 w-12 fill-white"
                                 alt="">
                         @endif
+
 
                         <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-white">
                             <time datetime="{{ $currentItem->created_at }}"
@@ -106,7 +189,8 @@
     <script>
         document.addEventListener('livewire:load', function() {
             setInterval(function() {
-                @this.call('nextItems')
+                console.log('Calling nextItems method'); // Debugging line
+                @this.call('nextItems');
             }, 10000); // 10 seconds
         });
     </script>

@@ -63,10 +63,10 @@ class LatestGallery extends Resource
             Text::make('Likes', 'likes')->sortable(),
             Text::make('Views', 'views')->sortable(),
             TextArea::make('Description', 'description')->sortable(),
-            File::make('Video File', 'file_path')
+            File::make('Gallery File', 'file_path')
                 ->disk('public')
-                ->path('videos'),
-            Boolean::make('Is Featured', 'is_featured'),
+                ->path('gallerys'),
+            Boolean::make('Is Featured ?', 'is_featured'),
 
         ];
     }

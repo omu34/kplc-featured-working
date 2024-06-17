@@ -2,13 +2,10 @@
 
 namespace App\Nova;
 
-// use App\Nova\Actions\DeleteLatestVideos;
-// use App\Nova\Actions\EditLatestVideos;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -66,9 +63,9 @@ class LatestVideos extends Resource
             Text::make('Views', 'views')->sortable(),
             TextArea::make('Description', 'description')->sortable(),
             File::make('Video File', 'file_path')
-                ->disk('public') 
+                ->disk('public')
                 ->path('videos'),
-            Boolean::make('Is Featured', 'is_featured'),
+            Boolean::make('Is Featured ?', 'is_featured'),
 
         ];
     }

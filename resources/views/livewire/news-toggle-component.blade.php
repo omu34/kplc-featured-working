@@ -5,34 +5,47 @@
             $mimeType = Storage::disk('public')->mimeType($news->file_path);
         @endphp
 
-        @if (Str::startsWith($mimeType, 'video'))
-            <video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
-                <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
-                Your browser does not support the video tag.
-            </video>
-        @elseif (Str::startsWith($mimeType, 'audio'))
-            <audio controls class="absolute inset-0 -z-10 w-full">
-                <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
-                Your browser does not support the audio element.
-            </audio>
-        @elseif (Str::startsWith($mimeType, 'image'))
-            <img src="{{ Storage::url($currentItem->file_path) }}" alt=""
-                class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @elseif (Str::startsWith($mimeType, 'application/pdf'))
-            <img src="/pdf-icon.png" alt="PDF Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @elseif (Str::startsWith($mimeType, 'application/msword') ||
-                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
-            <img src="/word-icon.png" alt="Word Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
-                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
-            <img src="/excel-icon.png" alt="Excel Document" class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @elseif (Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
-                Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'))
-            <img src="/powerpoint-icon.png" alt="PowerPoint Presentation"
-                class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @else
-            <img src="/default-image.jpg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-        @endif
+@if (Str::startsWith($mimeType, 'video'))
+<video class="absolute inset-0 -z-10 h-full w-full object-cover" autoplay muted loop>
+    <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
+    Your browser does not support the video tag.
+</video>
+@elseif (Str::startsWith($mimeType, 'audio'))
+<audio class="absolute inset-0 -z-10 w-full" controls>
+    <source src="{{ Storage::url($currentItem->file_path) }}" type="{{ $mimeType }}">
+    Your browser does not support the audio element.
+</audio>
+@elseif (Str::startsWith($mimeType, 'image'))
+<img src="{{ Storage::url($currentItem->file_path) }}" alt=""
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/pdf'))
+<img src="/pdf-file-svg-repo-com.svg" alt="PDF Document"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/zip'))
+<img src="/zip.png" alt="ZIP Archive"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'text/csv') || Str::startsWith($mimeType, 'application/vnd.ms-excel'))
+<img src="/csv.png" alt="CSV File"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/msword') ||
+    Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+<img src="/word.png" alt="Word Document"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
+    Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
+<img src="/excel.png" alt="Excel Document"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
+    Str::startsWith($mimeType, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'))
+<img src="/powerpoint.png" alt="PowerPoint Presentation"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@elseif (Str::startsWith($mimeType, 'application/vnd.ms-access'))
+<img src="/access.png" alt="Access Database"
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@else
+<img src="/default-image.jpg" alt=""
+    class="absolute inset-0 -z-10 h-full w-full object-cover">
+@endif
 
         <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-gray-900/50"></div>
         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>

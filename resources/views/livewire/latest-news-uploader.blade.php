@@ -23,13 +23,76 @@
                                 {{-- Go to {{ $new->title }} --}}
                             </span>
                         </a>
-                        <video autoplay muted loop class="absolute inset-0 -z-10 h-full w-full object-cover">
-                            <source src="{{ Storage::url($new->file_path) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+
+                        @php
+                            $mimeType = Storage::disk('public')->mimeType($new->file_path);
+                        @endphp
+                        @if (Str::startsWith($mimeType, 'video'))
+                            <video autoplay muted loop class="absolute inset-0 -z-10 h-full w-full object-cover">
+                                <source src="{{ Storage::url($new->file_path) }}" type="{{ $mimeType }}">
+                                Your browser does not support the video tag.
+                            </video>
+                        @elseif (Str::startsWith($mimeType, 'audio'))
+                            <audio controls class="absolute inset-0 -z-10 w-full">
+                                <source src="{{ Storage::url($new->file_path) }}" type="{{ $mimeType }}">
+                                Your browser does not support the audio element.
+                            </audio>
+                        @elseif (Str::startsWith($mimeType, 'image'))
+                            <img src="{{ Storage::url($new->file_path) }}" alt=""
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @else
+                            @php
+                                $fileIcon = '';
+                                if (Str::startsWith($mimeType, 'application/pdf')) {
+                                    $fileIcon = 'pdf-file-svg-repo-com.svg';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/msword') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                    )
+                                ) {
+                                    $fileIcon = 'word.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/vnd.ms-excel') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                    )
+                                ) {
+                                    $fileIcon = 'excel.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/vnd.ms-powerpoint') ||
+                                    Str::startsWith(
+                                        $mimeType,
+                                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                                    )
+                                ) {
+                                    $fileIcon = 'powerpoint.png';
+                                } elseif (
+                                    Str::startsWith($mimeType, 'application/zip') ||
+                                    Str::startsWith($mimeType, 'application/x-zip-compressed')
+                                ) {
+                                    $fileIcon = 'zip.png';
+                                } elseif (Str::startsWith($mimeType, 'text/csv')) {
+                                    $fileIcon = 'csv.png';
+                                } else {
+                                    $fileIcon = 'default-image.jpg';
+                                }
+                            @endphp
+                            <img src="/{{ $fileIcon }}" alt="File Icon"
+                                class="absolute inset-0 -z-10 h-full w-full object-cover">
+                        @endif
+
+
+
+
+
+
+
                         <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-gray-900/50"></div>
                         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
-                        <img src="{{ asset('video.svg') }}"
+                        <img src="{{ asset('blog.svg') }}"
                             class="absolute text-yellow top-2/3 mb-8 left-1/2 transform -translate-x-1/2 -translate-y-28 h-12 w-12 fill-white"
                             alt="">
                         <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-white">
