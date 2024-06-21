@@ -36,21 +36,6 @@
             </header>
         @endif
 
-        {{-- document.addEventListener('search', function() {
-        this.isLoading = true;
-        this.error = null;
-        fetch('/search?q=' + encodeURIComponent(this.search))
-        .then(response => response.json())
-        .then(data => {
-        this.results = data;
-        })
-        .catch(error => {
-        this.error = 'An error occurred during search.';
-        })
-        .finally(() => {
-        this.isLoading = false;
-        });
-        }); --}}
 
 
         <!-- Page Content -->

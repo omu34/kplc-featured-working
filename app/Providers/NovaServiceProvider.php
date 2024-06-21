@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Nova\MainPages;
+use App\Nova\PageContents;
+use App\Nova\SubPages;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
@@ -23,11 +26,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function resources()
     {
         $resources = [
-
-            \App\Nova\FeaturedItems::class,
+            \App\Nova\Navbar::class,
             \App\Nova\LatestVideos::class,
             \App\Nova\LatestNews::class,
             \App\Nova\LatestGallery::class,
+            \App\Nova\Footers::class,
+            \App\Nova\MainPages::class,
+            \App\Nova\SubPages::class,
+            \App\Nova\PageContents::class,
 
         ];
 
@@ -36,7 +42,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 Nova::resources([$resource]);
             }
         }
+
+        
     }
+
+
 
     /**
      * Register the Nova routes.

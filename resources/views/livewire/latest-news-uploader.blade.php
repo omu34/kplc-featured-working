@@ -84,12 +84,6 @@
                                 class="absolute inset-0 -z-10 h-full w-full object-cover">
                         @endif
 
-
-
-
-
-
-
                         <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-gray-900/50"></div>
                         <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
                         <img src="{{ asset('blog.svg') }}"

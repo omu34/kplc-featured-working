@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\LatestGallery;
-use App\Models\LatestVideos;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -39,7 +38,7 @@ class LatestGalleryUploader extends Component
     public function saveGallery()
     {
         $this->validate([
-            'galleryFile' => 'required|mimetypes:video/mp4,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-msvideo,audio/mpeg,audio/mp3,image/png,image/jpeg,image/gif,pdf,doc,docx,ppt,pptx,xls,xlsx,zip,csv|max:10240',
+            'galleryFile' => 'required|mime-types:video/mp4,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-msvideo,audio/mpeg,audio/mp3,image/png,image/jpeg,image/gif,pdf,doc,docx,ppt,pptx,xls,xlsx,zip,csv|max:10240',
             'likes' => 'required|integer|max:2000',
             'views' => 'required|integer|max:2000',
             'description' => 'nullable|string',

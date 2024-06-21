@@ -47,6 +47,10 @@ Route::get('/videos/{id}', function () {
     return view('single-blogs.single-videos-toggle', ['videos' => LatestVideos::latest()->take(1)->get()]);
 });
 
+// Route::get('/navbar-selector', function () {
+//     return view('home.navbar-selector');
+// });
+
 // logic player routes
 Route::get('/featured', [FeaturedItemsController::class, 'index'])->name('featured.index');
 Route::get('/featured/{id}', [FeaturedItemsController::class, 'show'])->name('featured.show');
