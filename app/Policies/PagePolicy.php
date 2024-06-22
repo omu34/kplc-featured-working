@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\MainPages;
+use App\Models\Page;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class MainPagesPolicy
+class PagePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class MainPagesPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, MainPages $mainPages): bool
+    public function view(User $user, Page $page): bool
     {
         return true;
     }
@@ -35,7 +35,7 @@ class MainPagesPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, MainPages $mainPages): bool
+    public function update(User $user, Page $page): bool
     {
         return true;
     }
@@ -43,7 +43,7 @@ class MainPagesPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, MainPages $mainPages): bool
+    public function delete(User $user, Page $page): bool
     {
         return true;
     }
@@ -51,7 +51,7 @@ class MainPagesPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, MainPages $mainPages): bool
+    public function restore(User $user, Page $page): bool
     {
         return true;
     }
@@ -59,7 +59,7 @@ class MainPagesPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, MainPages $mainPages): bool
+    public function forceDelete(User $user, Page $page): bool
     {
         return true;
     }

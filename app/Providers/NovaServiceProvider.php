@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Nova\MainPages;
-use App\Nova\PageContents;
-use App\Nova\SubPages;
+
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
@@ -31,9 +29,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             \App\Nova\LatestNews::class,
             \App\Nova\LatestGallery::class,
             \App\Nova\Footers::class,
-            \App\Nova\MainPages::class,
-            \App\Nova\SubPages::class,
-            \App\Nova\PageContents::class,
+            \App\Nova\Page::class,
+            \App\Nova\Pagesection::class,
+            \App\Nova\Pagecontent::class,
 
         ];
 

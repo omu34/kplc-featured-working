@@ -2,30 +2,28 @@
 
 namespace App\Nova;
 
-use App\Models\SubPages;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class PageContents extends Resource
+class Page extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\PageContents>
+     * @var class-string<\App\Models\Page>
      */
-    public static $model = \App\Models\PageContents::class;
+    public static $model = \App\Models\Page::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'content';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -46,20 +44,14 @@ class PageContents extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('Subpage', 'subpage', SubPages::class),
-
-            Text::make('Content'),
-
-            File::make('Media', 'media_path')
-                // ->store(function (Request $request, $model) {
-                //     $file = $request->file('media');
-                //     $path = $file->store('page-content-media', 'public');
-                //     $model->update(['media' => $path]);
-                // })
-                // ->prunable()
-                // ->thumbnail(function () {
-                //     return $this->media ? Storage::url($this->media) : null;
-                // }),
+            Text::make('Title')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Image::make('Media')
+                ->disk('public')
+                ->path('page-media')
+                ->prunable(),
+            HasMany::make('Pagesections')
         ];
     }
 

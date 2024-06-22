@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('page_contents', function (Blueprint $table) {
+        Schema::create('pagecontents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sub_page_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pagesection_id')->constrained()->onDelete('cascade');
             $table->text('content');
             $table->string('media')->nullable();
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('page_contents');
+        Schema::dropIfExists('pagecontents');
     }
 };
