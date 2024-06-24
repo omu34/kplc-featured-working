@@ -12,27 +12,47 @@ class PageComponent extends Component
 {
     use WithFileUploads;
 
+    public $pages;
     public $page;
     public $pagesections;
     public $selectedPagesection;
     public $media;
     public $mediaType;
+    public $selectedPageId;
     public $selectedPagesectionId;
     public $selectedPagecontentId;
 
-    public function mount(Page $page)
+    public function mount()
     {
-        $this->page = $page;
-        $this->pagesections = $page->pagesections()->with('pagecontents')->get();
+        $this->pages = Page::all();
+        if ($this->pages->isNotEmpty()) {
+            $this->selectedPageId = $this->pages->first()->id;
+            $this->loadPageData();
+        }
     }
 
     public function render()
     {
         return view('livewire.page-component', [
+            'pages' => $this->pages,
             'page' => $this->page,
             'pagesections' => $this->pagesections,
             'selectedPagesection' => $this->selectedPagesection,
         ]);
+    }
+
+    public function loadPageData()
+    {
+        $this->page = Page::with('pagesections.pagecontents')->find($this->selectedPageId);
+        $this->pagesections = $this->page->pagesections;
+        $this->selectedPagesection = null;
+        $this->selectedPagesectionId = null;
+        $this->selectedPagecontentId = null;
+    }
+
+    public function updatedSelectedPageId()
+    {
+        $this->loadPageData();
     }
 
     public function updateSelectedPagesection($selectedPagesectionId)
@@ -44,7 +64,7 @@ class PageComponent extends Component
     public function uploadMedia()
     {
         $this->validate([
-            'media' => 'image|max:1024',  // 1MB Max
+            'media' => 'image|max:1024',
             'mediaType' => 'required|in:page,pagesection,pagecontent',
         ]);
 
@@ -71,3 +91,4 @@ class PageComponent extends Component
         }
     }
 }
+
